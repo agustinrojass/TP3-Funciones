@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pila.h"
-
+//FALTA 5 - 7 - 9 - 10
 void ejercicio1();
 void ejercicio2();
 void ejercicio3();
@@ -19,11 +19,7 @@ Pila copiarPila(Pila pila);                 //(3)
 Pila copiarPilaIgual(Pila pila);            //(4)
 void eliminarMenor(Pila *pila);             //(5)
 void ordenarPila(Pila *pila);               //(6)
-Pila insertarElemento(Pila pila);           //(7)
-
-
-
-//Pila ordenarPila(Pila pilaDesordenada);
+int suma2Elementos(int num1,int num2);      //(7)
 
 int main()
 {
@@ -107,7 +103,7 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP3 TERMINADO\n");
-    printf("\nVersion 1.0\n");
+    printf("\nVersion 1.1\n");
     return 0;
 }
 Pila cargarPila(Pila pila)                              //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA  (1)
@@ -214,8 +210,12 @@ void ordenarPila(Pila *pila)                            //INICIO FUNCION ORDENAR
     //    apilar(pila,desapilar(&aux));
     //}
 }                                                       //FIN FUNCION ORDENAR UNA PILA
-
-
+int suma2Elementos(int num1,int num2)
+{
+    int suma=0;
+    suma=num1+num2;
+    return suma;
+}
 
 void ejercicio1()
 {
@@ -289,20 +289,32 @@ void ejercicio7()
 {
     //Hacer una funcion que pase los elementos de una pila a otra, de manera que se genere una nueva pila ordenada.
     //Usar la funcion del ejercicio 6. (Ordenamiento por insercion)
-
 }
 void ejercicio8()
 {
     //Hacer una funcion que sume y retorne los dos primeros elementos de una pila (tope y anterior), sin alterar su contenido.
+    int i,tope1,tope2,suma;
+    Pila pila,copia;
+    inicpila(&pila);
+    inicpila(&copia);
+    cargarPilaCR(&pila);                                //FUNCION CARGARPILA
+    copia=copiarPilaIgual(pila);                        //FUNCION COPIARPILAIGUAL
+    tope1=desapilar(&copia);
+    printf("El primer tope es: %i\n",tope1);
+    tope2=desapilar(&copia);
+    printf("El segundo tope es: %i\n",tope2);
+    suma=suma2Elementos(tope1,tope2);                             //FUNCION SUMA
+    printf("\nLa suma es: %i\n\n",suma);
+
 }
 void ejercicio9()
 {
-    //Hacer una funcion que calcule el promedio de los elementos de una pila, para ello hacer también una funcion que calcule la suma, otra para la cuenta y otra que divida.
+    //Hacer una funcion que calcule el promedio de los elementos de una pila, para ello hacer tambien una funcion que calcule la suma, otra para la cuenta y otra que divida.
     //En total son cuatro funciones, y la funcion que calcula el promedio invoca a las otras 3.
 }
 void ejercicio10()
 {
-    //Hacer una funcion que reciba una pila con numeros de un solo dígito (es responsabilidad de quien usa el programa) y que transforme esos digitos en un numero decimal. Por ejemplo, la pila:
+    //Hacer una funcion que reciba una pila con numeros de un solo digito (es responsabilidad de quien usa el programa) y que transforme esos digitos en un numero decimal. Por ejemplo, la pila:
     //Base 5 - 7 - 6 - 4 - 1 Tope
     //Debe retornar el número: 14675
 }
