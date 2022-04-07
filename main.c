@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pila.h"
-//FALTA 5 - 7 - 9 - 10
+//FALTA 7 - 10
 void ejercicio1();
 void ejercicio2();
 void ejercicio3();
@@ -13,13 +13,17 @@ void ejercicio8();
 void ejercicio9();
 void ejercicio10();
 
-Pila cargarPila(Pila pila);                 //(1)
-void cargarPilaCR(Pila *pila);              //(2)
-Pila copiarPila(Pila pila);                 //(3)
-Pila copiarPilaIgual(Pila pila);            //(4)
-void eliminarMenor(Pila *pila);             //(5)
-void ordenarPila(Pila *pila);               //(6)
-int suma2Elementos(int num1,int num2);      //(7)
+//Pila cargarPila(Pila pila);                             //(1)
+void cargarPilaCR(Pila *pila);                          //(2)
+Pila copiarPila(Pila *pila);                            //(3)
+Pila copiarPilaIgual(Pila *pila);                       //(4)
+int eliminarMenor(Pila *pila);                          //(5)
+Pila ordenarPila(Pila *pila);                           //(6)
+Pila copiaOrdenada(Pila *pila);                         //(7)
+int suma2Elementos(int num1,int num2);                  //(8)
+int sumarPila(Pila pila);                               //(9)
+int contadorElementos(Pila pila);                       //(10)
+float promedioPila(Pila pila);                          //(11)
 
 int main()
 {
@@ -103,10 +107,10 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP3 TERMINADO\n");
-    printf("\nVersion 1.1\n");
+    printf("\nVersion 1.2\n");
     return 0;
 }
-Pila cargarPila(Pila pila)                              //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA  (1)
+/*Pila cargarPila(Pila pila)                              //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA   (1)
 {
     char continuar;
     printf("Ingrese los elementos de la pila:\n\n");
@@ -120,8 +124,8 @@ Pila cargarPila(Pila pila)                              //INICIO FUNCION CARGAR 
     }
     while(continuar!='n');
     return pila;
-}                                                       //FIN FUNCION CARGAR ELEMENTOS EN UNA PILA
-void cargarPilaCR(Pila *pilaCR)                         //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA  (2)
+}*/                                                       //FIN FUNCION CARGAR ELEMENTOS EN UNA PILA
+void cargarPilaCR(Pila *pilaCR)                         //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA   (2)
 {
     char continuar;
     printf("Ingrese los elementos de la pila:\n\n");
@@ -135,21 +139,32 @@ void cargarPilaCR(Pila *pilaCR)                         //INICIO FUNCION CARGAR 
     }
     while(continuar!='n');
 }                                                       //FIN FUNCION CARGAR ELEMENTOS EN UNA PILA
-Pila copiarPila(Pila pila)                              //INICIO FUNCION COPIAR PILA                   (3)
+Pila copiarPila(Pila *pila)                             //INICIO FUNCION COPIAR PILA                    (3)
 {
     Pila aux;
     inicpila(&aux);
-    while(!pilavacia(&pila))
+    while(!pilavacia(pila))
     {
-        apilar(&aux,desapilar(&pila));
+        apilar(&aux,desapilar(pila));
     }
     return aux;
 }                                                       //FIN FUNCION COPIAR PILA
-Pila copiarPilaIgual(Pila pila)                         //INICIO FUNCION COPIAR PILA EN EL MISMO ORDEN (4)
+Pila copiarPilaIgual(Pila *pila)                        //INICIO FUNCION COPIAR PILA EN EL MISMO ORDEN  (4)
 {
-    return pila;
+    Pila aux,aux2;
+    inicpila(&aux);
+    inicpila(&aux2);
+    while(!pilavacia(pila))
+    {
+        apilar(&aux,desapilar(pila));
+    }
+    while(!pilavacia(&aux))
+    {
+        apilar(&aux2,desapilar(&aux));
+    }
+    return aux2;
 }                                                       //FIN FUNCION COPIAR PILA EN EL MISMO ORDEN
-void eliminarMenor(Pila *pila)                          //INICIO FUNCION MENOR DE UNA PILA             (5)
+int eliminarMenor(Pila *pila)                           //INICIO FUNCION ELIMINAR EL MENOR DE UNA PILA  (5)
 {
     int menor;
     Pila aux,pilaMenor;
@@ -173,49 +188,72 @@ void eliminarMenor(Pila *pila)                          //INICIO FUNCION MENOR D
         apilar(pila,desapilar(&aux));
     }
     menor=tope(&pilaMenor);
-    printf("El menor elemento, el %i, fue eliminado.\n\n",menor);
-    //return pila;
-}                                                       //FIN FUNCION MENOR DE UNA PILA
-void ordenarPila(Pila *pila)                            //INICIO FUNCION ORDENAR UNA PILA
+    return menor;
+}                                                       //FIN FUNCION ELIMINAR EL MENOR DE UNA PILA
+Pila ordenarPila(Pila *pila)                            //INICIO FUNCION ORDENAR PILA                   (6)
 {
-    Pila ordenada,aux;
+    int menor;
+    Pila ordenada;
     inicpila(&ordenada);
-    inicpila(&aux);
     while(!pilavacia(pila))
     {
-        if(tope(pila)<tope(&ordenada))
-        {
-            apilar(&ordenada,desapilar(pila));
-        }
-        else
-        {
-            while(tope(pila)>tope(&ordenada))
-            {
-                apilar(&aux,desapilar(&ordenada));
-            }
-            apilar(&ordenada,desapilar(pila));
-            while(!pilavacia(&aux))
-            {
-                apilar(&ordenada,desapilar(&aux));
-            }
-        }
+        menor=eliminarMenor(pila);                      //FUNCION ELIMINARMENOR
+        apilar(&ordenada,menor);
     }
     while(!pilavacia(&ordenada))
     {
-        //apilar(&aux,desapilar(&ordenada));
         apilar(pila,desapilar(&ordenada));
     }
-    //while(!pilavacia(&aux))
-    //{
-    //    apilar(pila,desapilar(&aux));
-    //}
-}                                                       //FIN FUNCION ORDENAR UNA PILA
-int suma2Elementos(int num1,int num2)
+    //el return lo utilizo solo en algunos ejercicios en los que neceito una copia ordenada y no solo ordenar la pila original
+    return *pila;
+}                                                       //FIN FUNCION ORDENAR PILA
+Pila copiaOrdenada(Pila *pila)                          //INICIO FUNCION COPIAR PILA Y ORDENARLA        (7)
+{
+    Pila auxX;
+    inicpila(&auxX);
+
+    auxX=copiarPila(pila);
+
+    ordenarPila(&auxX);
+
+    return auxX;
+}                                                       //INICIO FUNCION COPIAR PILA Y ORDENARLA
+int suma2Elementos(int num1,int num2)                   //INICIO FUNCION SUMAR 2 ELEMENTOS              (8)
 {
     int suma=0;
     suma=num1+num2;
     return suma;
-}
+}                                                       //FIN FUNCION SUMAR 2 ELEMENTOS
+int sumarPila(Pila pila)                                //INICIO FUNCIONSUMARPILA                       (9)
+{
+    int suma=0;
+    while(!pilavacia(&pila))
+    {
+        suma=suma+tope(&pila);
+        desapilar(&pila);
+    }
+    return suma;
+}                                                       //FIN FUNCION SUMARPILA
+int contadorElementos(Pila pila)                        //INICIO FUNCION CONTAR ELEMENTOS               (10)
+{
+    int contador=0;
+    Pila aux;
+    inicpila(&aux);
+    while(!pilavacia(&pila))
+    {
+        apilar(&aux,desapilar(&pila));
+        contador++;
+    }
+    return contador;
+}                                                       //FIN FUNCION CONTAR ELEMENTOS
+float promedioPila(Pila pila)                           //INICIO FUNCION PROMEDIO DE PILA               (11)
+{
+    float suma,contador,promedio;
+    suma=sumarPila(pila);                               //FUNCION SUMARPILA
+    contador=contadorElementos(pila);                   //FUNCION CONTADORPILA
+    promedio=suma/contador;
+    return promedio;
+}                                                       //FIN FUNCION PROMEDIO DE PILA
 
 void ejercicio1()
 {
@@ -232,10 +270,10 @@ void ejercicio2()
     Pila pila,copia;
     inicpila(&pila);
     inicpila(&copia);
-    cargarPilaCR(&pila);                               //FUNCION CARGARPILACR
+    cargarPilaCR(&pila);                                //FUNCION CARGARPILACR
     printf("La pila cargada es:");
     mostrar(&pila);
-    copia=copiarPila(pila);                           //FUNCION CARGARPILACR
+    copia=copiarPila(&pila);                             //FUNCION CARGARPILACR
     printf("La copia de la pila cargada es:");
     mostrar(&copia);
 }
@@ -245,10 +283,10 @@ void ejercicio3()
     Pila pila,copia;
     inicpila(&pila);
     inicpila(&copia);
-    cargarPilaCR(&pila);                               //FUNCION CARGARPILACR
+    cargarPilaCR(&pila);                                //FUNCION CARGARPILACR
     printf("La pila cargada es:");
     mostrar(&pila);
-    copia=copiarPilaIgual(pila);                       //FUNCION COPIARPILAIGUAL
+    copia=copiarPilaIgual(&pila);                        //FUNCION COPIARPILAIGUAL
     printf("La copia en el mismo orden de la pila cargada es:");
     mostrar(&copia);
 }
@@ -256,12 +294,14 @@ void ejercicio4()
 {
     //Hacer una funcion que encuentre el menor elemento de una pila y lo retorna.
     //La misma debe eliminar ese dato de la pila.
+    int menor;
     Pila pila;
     inicpila(&pila);
     cargarPilaCR(&pila);                                //FUNCION CARGARPILA
     printf("La pila inicial es:");
     mostrar(&pila);
-    eliminarMenor(&pila);                               //FUNCION ELIMINARMENOR
+    menor=eliminarMenor(&pila);                         //FUNCION ELIMINARMENOR
+    printf("El menor elemento de la pila es: %i",menor);
     printf("La pila final es:");
     mostrar(&pila);
 }
@@ -269,6 +309,15 @@ void ejercicio5()
 {
     //Hacer una funcion que pase los elementos de una pila a otra, de manera que se genere una nueva pila ordenada.
     //Usar la función del ejercicio 4. (Ordenamiento por seleccion)
+    Pila pila,ordenada;
+    inicpila(&pila);
+    inicpila(&ordenada);
+    cargarPilaCR(&pila);                                //FUNCION CARGARPILA
+    printf("La pila inicial es:");
+    mostrar(&pila);
+    ordenada=copiaOrdenada(&pila);                      //FUNCION COPIAORDENADA
+    printf("La pila ordenada es:");
+    mostrar(&ordenada);
 }
 void ejercicio6()
 {
@@ -293,24 +342,33 @@ void ejercicio7()
 void ejercicio8()
 {
     //Hacer una funcion que sume y retorne los dos primeros elementos de una pila (tope y anterior), sin alterar su contenido.
-    int i,tope1,tope2,suma;
+    int tope1,tope2,suma;
     Pila pila,copia;
     inicpila(&pila);
     inicpila(&copia);
     cargarPilaCR(&pila);                                //FUNCION CARGARPILA
-    copia=copiarPilaIgual(pila);                        //FUNCION COPIARPILAIGUAL
+    printf("La pila inicial es:");
+    mostrar(&pila);
+    copia=pila;
     tope1=desapilar(&copia);
     printf("El primer tope es: %i\n",tope1);
     tope2=desapilar(&copia);
     printf("El segundo tope es: %i\n",tope2);
-    suma=suma2Elementos(tope1,tope2);                             //FUNCION SUMA
+    suma=suma2Elementos(tope1,tope2);                   //FUNCION SUMA2ELEMENTOS
     printf("\nLa suma es: %i\n\n",suma);
-
 }
-void ejercicio9()
+void ejercicio9()       //USO UNA FUNCION QUE SUMA LOS ELEMENTOS, OTRA QUE LOS CUENTA, Y OTRA QUE USA ESAS 2 FUNCIONES PARA HACER LA DIVISION
 {
     //Hacer una funcion que calcule el promedio de los elementos de una pila, para ello hacer tambien una funcion que calcule la suma, otra para la cuenta y otra que divida.
     //En total son cuatro funciones, y la funcion que calcula el promedio invoca a las otras 3.
+    float promedio;
+    Pila pila;
+    inicpila(&pila);
+    cargarPilaCR(&pila);                                //FUNCION CARGARPILA
+    printf("La pila inicial es:");
+    mostrar(&pila);
+    promedio=promedioPila(pila);                        //FUNCION PROMEDIOPILA
+    printf("El promedio de la pila es: %.2f\n\n",promedio);
 }
 void ejercicio10()
 {

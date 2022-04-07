@@ -1,12 +1,12 @@
 # depslib dependency file v1.0
-1490112217 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp3 - funciones\pila.c
+1649342961 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp3 - funciones\pila.c
 	"pila.h"
 
 1490112217 c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp3 - funciones\pila.h
 	<stdio.h>
 	<malloc.h>
 
-1649275821 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp3 - funciones\main.c
+1649343554 source:c:\users\usuario\documents\utn\2022\1er cuatrimestre\programación\archivos c\tp3 - funciones\main.c
 	<stdio.h>
 	<stdlib.h>
 	"pila.h"
