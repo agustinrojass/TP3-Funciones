@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "pila.h"
-//FALTA 7 - 10
+//FALTA 7
 void ejercicio1();
 void ejercicio2();
 void ejercicio3();
@@ -24,6 +24,7 @@ int suma2Elementos(int num1,int num2);                  //(8)
 int sumarPila(Pila pila);                               //(9)
 int contadorElementos(Pila pila);                       //(10)
 float promedioPila(Pila pila);                          //(11)
+int numeroPila (Pila pila);                             //(12)
 
 int main()
 {
@@ -254,6 +255,19 @@ float promedioPila(Pila pila)                           //INICIO FUNCION PROMEDI
     promedio=suma/contador;
     return promedio;
 }                                                       //FIN FUNCION PROMEDIO DE PILA
+int numeroPila (Pila pila)                              //INICIO FUNCION PILA A NUMERO DECIMAL          (12)
+{
+    int contador=0,topeActual,numero=0;
+    pila=copiarPila(&pila);
+    mostrar(&pila);
+    while(!pilavacia(&pila))
+    {
+        topeActual=desapilar(&pila);
+        numero=numero+topeActual*pow(10,contador);
+        contador++;
+    }
+    return numero;
+}                                                       //FIN FUNCION PILA A NUMERO DECIMAL
 
 void ejercicio1()
 {
@@ -375,4 +389,11 @@ void ejercicio10()
     //Hacer una funcion que reciba una pila con numeros de un solo digito (es responsabilidad de quien usa el programa) y que transforme esos digitos en un numero decimal. Por ejemplo, la pila:
     //Base 5 - 7 - 6 - 4 - 1 Tope
     //Debe retornar el número: 14675
+    int  numero;
+    Pila pila;
+    inicpila(&pila);
+    cargarPilaCR(&pila);                            //FUNCION CARGARPILACR
+    numero=numeroPila(pila);                        //FUNCION NUMEROPILA
+    printf("El numero decimal es: %i\n\n",numero);
 }
+
