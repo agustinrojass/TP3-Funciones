@@ -114,7 +114,7 @@ int main()
     }
     while(ejercicio!=0);
     printf("\nTP3 TERMINADO\n");
-    printf("\nVersion 1.4\n");
+    printf("\nVersion 1.5\n");
     return 0;
 }
 void cargarPilaCR(Pila *pilaCR)                         //INICIO FUNCION CARGAR ELEMENTOS EN UNA PILA   (1)
@@ -201,14 +201,11 @@ Pila ordenarPila(Pila *pila)                            //INICIO FUNCION ORDENAR
 }                                                       //FIN FUNCION ORDENAR PILA
 Pila copiaOrdenada(Pila *pila)                          //INICIO FUNCION COPIAR PILA Y ORDENARLA        (6)
 {
-    Pila auxX;
-    inicpila(&auxX);
-
-    auxX=copiarPila(pila);
-
-    ordenarPila(&auxX);
-
-    return auxX;
+    Pila aux;
+    inicpila(&aux);
+    aux=copiarPila(pila);
+    ordenarPila(&aux);
+    return aux;
 }                                                       //INICIO FUNCION COPIAR PILA Y ORDENARLA
 int suma2Elementos(int num1,int num2)                   //INICIO FUNCION SUMAR 2 ELEMENTOS              (7)
 {
